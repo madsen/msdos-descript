@@ -5,7 +5,7 @@ package MSDOS::Descript;
 #
 # Author: Christopher J. Madsen <ac608@yfn.ysu.edu>
 # Created: 09 Nov 1997
-# Version: $Revision: 0.1 $ ($Date: 1997/11/11 23:06:57 $)
+# Version: $Revision: 0.2 $ ($Date: 1998/01/07 02:44:04 $)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the same terms as Perl itself.
@@ -33,7 +33,7 @@ use vars qw(@ISA $VERSION);
 BEGIN
 {
     # Convert RCS revision number to d.ddd format:
-    $VERSION = sprintf('%d.%03d', '$Revision: 0.1 $ ' =~ /(\d+)\.(\d+)/);
+    $VERSION = sprintf('%d.%03d', '$Revision: 0.2 $ ' =~ /(\d+)\.(\d+)/);
 } # end BEGIN
 
 #=====================================================================
@@ -93,6 +93,21 @@ sub read
     $in = $self->{file} unless $in;
 
     $self->{desc} = ();
+    $self->read_add($in);
+
+    delete $self->{changed} if $in eq $self->{file};
+} # end read
+
+#---------------------------------------------------------------------
+# Add descriptions from a file to the current database:
+#
+# Input:
+#   IN:  The name of the file to read
+
+sub read_add
+{
+    my ($self,$in) = @_;
+
     if (-r $in) {
         open(DESCRIPT, $in) or croak "Unable to open $in";
         while (<DESCRIPT>) {
@@ -102,9 +117,8 @@ sub read
         close DESCRIPT;
     }
 
-    if ($in eq $self->{file}) { delete $self->{changed} }
-    else                      { $self->{changed} = 1    }
-} # end read
+    $self->{changed} = 1;
+} # end read_add
 
 #---------------------------------------------------------------------
 # Write the 4DOS description file:
