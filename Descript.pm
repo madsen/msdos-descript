@@ -5,7 +5,7 @@ package MSDOS::Descript;
 #
 # Author: Christopher J. Madsen <ac608@yfn.ysu.edu>
 # Created: 09 Nov 1997
-# Version: $Revision: 0.2 $ ($Date: 1998/01/07 02:44:04 $)
+# Version: $Revision: 0.3 $ ($Date: 1998/01/08 22:48:50 $)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the same terms as Perl itself.
@@ -20,20 +20,24 @@ package MSDOS::Descript;
 
 require 5.000;
 use Carp;
-use MSDOS::Attrib 'set_attribs';
 require Tie::CPHash;
 use strict;
-use vars qw(@ISA $VERSION);
+use vars qw(@ISA $VERSION $hide_descriptions);
 
 @ISA = ();
 
 #=====================================================================
-# Package Global Variables:
+# Package Startup:
 
 BEGIN
 {
     # Convert RCS revision number to d.ddd format:
-    $VERSION = sprintf('%d.%03d', '$Revision: 0.2 $ ' =~ /(\d+)\.(\d+)/);
+    $VERSION = sprintf('%d.%03d', '$Revision: 0.3 $ ' =~ /(\d+)\.(\d+)/);
+
+    # Try to load MSDOS::Attrib, but keep going without it:
+    eval { require MSDOS::Attrib };
+    $hide_descriptions = 1 unless $@;
+    MSDOS::Attrib->import('set_attribs') if $hide_descriptions;
 } # end BEGIN
 
 #=====================================================================
@@ -140,7 +144,7 @@ sub write
             print DESCRIPT $file,' ',$desc,"\n";
         }
         close DESCRIPT;
-        set_attribs('+h',$out);
+        set_attribs('+h',$out) if $hide_descriptions;
     }
     $self->{changed} = 0 if $out eq $self->{file};
 } # end write
@@ -159,6 +163,100 @@ sub update
 1;
 
 __END__
+
+=head1 NAME
+
+MSDOS::Descript - Manage 4DOS style DESCRIPT.ION files
+
+=head1 SYNOPSIS
+
+    use MSDOS::Descript;
+    $d = new MSDOS::Descript;
+    print $d->description('foo.txt');
+    $d->rename('foo.txt', 'bar.txt');
+    $d->description('baz.txt','This is Baz.txt');
+    $d->description('frotz.txt', ''); # Remove description for frotz.txt
+    $d->update;
+
+=head1 DESCRIPTION
+
+B<MSDOS::Descript> provides access to 4DOS style DESCRIPT.ION files.
+
+Remember that changes to the descriptions are B<not> saved unless you
+call the C<update> or C<write> methods.
+
+By default, B<MSDOS::Descript> uses relative paths, so if you change
+the current directory between C<new> and C<update>, you'll be writing
+to a different file.  To avoid this, you can pass an absolute path to
+C<new>.
+
+=head2 Methods
+
+=over 4
+
+=item $d = MSDOS::Descript->new([$filename])
+
+Constructs a new C<MSDOS::Descript> object.  C<$filename> may be a
+directory or a 4DOS DESCRIPT.ION format file.  If it's a directory,
+looks for a DESCRIPT.ION file in that directory.  If C<$filename> is
+omitted, it defaults to the current directory.
+
+=item $d->description($file, [$desc])
+
+Gets or sets the description of C<$file>.  If C<$desc> is omitted,
+returns the description of C<$file> or C<undef> if it doesn't have
+one.  Otherwise, sets the description of C<$file> to C<$desc> and
+returns the old description.  (If C<$desc> is the null string, the
+description is deleted.)
+
+=item $d->rename($old, $new)
+
+Transfers the description of C<$old> (if any) to C<$new>.  This does
+not actually rename the file on disk.
+
+=item $d->read([$file])
+
+Load the descriptions from C<$file>.  If C<$file> is omitted, then
+re-read the original description file.  Since C<new> does this
+automatically, you shouldn't have to call C<read> yourself.
+
+=item $d->read_add($file)
+
+Add the descriptions from C<$file> to the current descriptions.
+
+=item $d->write([$file])
+
+Writes the descriptions to C<$file>, or the original description file
+if C<$file> is omitted.  Marks the descriptions as unchanged if
+writing to the original description file.  If the current directory
+has changed since the descriptions were loaded, and the description
+file was specified by a relative path (which is the default), you will
+be writing to a different file.
+
+=item $d->update
+
+Saves the descriptions to the original file if any changes have been made.
+The same warning about the current directory applies (see C<write>).
+
+=back
+
+=head1 REQUIREMENTS
+
+B<MSDOS::Descript> uses B<MSDOS::Attrib> to hide DESCRIPT.ION files
+after it changes them.  If you don't have B<MSDOS::Attrib>, it will
+still work, but any DESCRIPT.ION files changed by B<MSDOS::Descript>
+will become visible.
+
+=head1 BUGS
+
+Uses relative paths, so changing the current directory after loading a
+description file can cause problems.
+
+=head1 AUTHOR
+
+Christopher J. Madsen E<lt>F<ac608@yfn.ysu.edu>E<gt>
+
+=cut
 
 # Local Variables:
 # tmtrack-file-task: "MSDOS::Descript.pm"
