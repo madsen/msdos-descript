@@ -5,7 +5,7 @@ package MSDOS::Descript;
 #
 # Author: Christopher J. Madsen <ac608@yfn.ysu.edu>
 # Created: 09 Nov 1997
-# Version: $Revision: 0.3 $ ($Date: 1998/01/08 22:48:50 $)
+# Version: $Revision: 1.0 $ ($Date: 1998/01/16 06:18:19 $)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the same terms as Perl itself.
@@ -32,7 +32,7 @@ use vars qw(@ISA $VERSION $hide_descriptions);
 BEGIN
 {
     # Convert RCS revision number to d.ddd format:
-    $VERSION = sprintf('%d.%03d', '$Revision: 0.3 $ ' =~ /(\d+)\.(\d+)/);
+    $VERSION = sprintf('%d.%03d', '$Revision: 1.0 $ ' =~ /(\d+)\.(\d+)/);
 
     # Try to load MSDOS::Attrib, but keep going without it:
     eval { require MSDOS::Attrib };
@@ -57,14 +57,34 @@ sub new
 } # end new
 
 #---------------------------------------------------------------------
+# Destructor:
+
+sub DESTROY
+{
+    $_[0]->update if $_[0]->{autoupdate};
+} # end DESTROY
+
+#---------------------------------------------------------------------
+# Enable or disable automatic updates:
+
+sub autoupdate
+{
+    $_[0]->{autoupdate} = (($#_ > 0) ? $_[1] : 1);
+} # end autoupdate
+
+#---------------------------------------------------------------------
+# Read or update the description for a file:
+#
+# If DESC is the null string or undef, then delete FILE's description.
+
 sub description
 {
     my ($self, $file, $desc) = @_;
 
     $file =~ s/\.+$//;          # Trailing dots don't count in MS-DOS
-    if (defined $desc) {
+    if ($#_ > 1) {
         my $old = $self->{desc}{$file};
-        if ($desc eq '') {
+        if (not defined($desc) or $desc eq '') {
             $self->{changed} = 1 if defined delete $self->{desc}{$file};
         } else {
             $self->{desc}{$file} = $desc;
@@ -76,6 +96,8 @@ sub description
 } # end description
 
 #---------------------------------------------------------------------
+# Transfer the description when a file is renamed:
+
 sub rename
 {
     my ($self, $old, $new) = @_;
@@ -96,7 +118,7 @@ sub read
     my ($self,$in) = @_;
     $in = $self->{file} unless $in;
 
-    $self->{desc} = ();
+    %{$self->{desc}} = ();
     $self->read_add($in);
 
     delete $self->{changed} if $in eq $self->{file};
@@ -206,8 +228,8 @@ omitted, it defaults to the current directory.
 Gets or sets the description of C<$file>.  If C<$desc> is omitted,
 returns the description of C<$file> or C<undef> if it doesn't have
 one.  Otherwise, sets the description of C<$file> to C<$desc> and
-returns the old description.  (If C<$desc> is the null string, the
-description is deleted.)
+returns the old description.  (If C<$desc> is the null string or
+C<undef>, the description is deleted.)
 
 =item $d->rename($old, $new)
 
@@ -238,14 +260,30 @@ be writing to a different file.
 Saves the descriptions to the original file if any changes have been made.
 The same warning about the current directory applies (see C<write>).
 
+=item $d->autoupdate([$auto])
+
+Turns on automatic updates for C<$d> if C<$auto> is true or omitted.
+Otherwise, turns automatic updates off.
+
+When automatic updates are on, the descriptions are automatically
+saved when the object is destroyed.  B<Beware of relative paths!>  If
+the current directory changes before the object is destroyed, you're
+going to be writing to a different file!  I strongly suggest that you
+use absolute paths if you're going to use C<autoupdate>.
+
 =back
 
 =head1 REQUIREMENTS
 
-B<MSDOS::Descript> uses B<MSDOS::Attrib> to hide DESCRIPT.ION files
-after it changes them.  If you don't have B<MSDOS::Attrib>, it will
-still work, but any DESCRIPT.ION files changed by B<MSDOS::Descript>
-will become visible.
+B<MSDOS::Descript> requires the B<Tie::CPHash> module (a
+case-insensitive hash).
+
+It also uses B<MSDOS::Attrib> to hide DESCRIPT.ION files after it
+changes them.  If you don't have B<MSDOS::Attrib>, it will still work,
+but any DESCRIPT.ION files changed by B<MSDOS::Descript> will become
+visible.
+
+Both B<Tie::CPHash> and B<MSDOS::Attrib> are available from CPAN.
 
 =head1 BUGS
 
