@@ -3,9 +3,9 @@ package MSDOS::Descript;
 #
 # Copyright 1997 Christopher J. Madsen
 #
-# Author: Christopher J. Madsen <ac608@yfn.ysu.edu>
+# Author: Christopher J. Madsen <chris_madsen@geocities.com>
 # Created: 09 Nov 1997
-# Version: $Revision: 1.0 $ ($Date: 1998/01/16 06:18:19 $)
+# Version: $Revision: 1.1 $ ($Date: 1998/10/25 23:07:59 $)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the same terms as Perl itself.
@@ -32,7 +32,7 @@ use vars qw(@ISA $VERSION $hide_descriptions);
 BEGIN
 {
     # Convert RCS revision number to d.ddd format:
-    $VERSION = sprintf('%d.%03d', '$Revision: 1.0 $ ' =~ /(\d+)\.(\d+)/);
+    $VERSION = sprintf('%d.%03d', '$Revision: 1.1 $ ' =~ /(\d+)\.(\d+)/);
 
     # Try to load MSDOS::Attrib, but keep going without it:
     eval { require MSDOS::Attrib };
@@ -292,7 +292,7 @@ description file can cause problems.
 
 =head1 AUTHOR
 
-Christopher J. Madsen E<lt>F<ac608@yfn.ysu.edu>E<gt>
+Christopher J. Madsen E<lt>F<chris_madsen@geocities.com>E<gt>
 
 =cut
 
