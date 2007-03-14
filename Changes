@@ -1,0 +1,12 @@
+Revision history for Perl extension MSDOS::Descript.
+
+1.02   Mar 17 2007
+        - added the changed method
+        - converted to Module::Build
+        - updated my email address
+
+1.001  Oct 25 1998
+        - updated my email address
+
+1.000  Jan 15 1998
+	- First public release; created by h2xs 1.18

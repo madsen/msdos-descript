@@ -3,9 +3,9 @@ package MSDOS::Descript;
 #
 # Copyright 1997 Christopher J. Madsen
 #
-# Author: Christopher J. Madsen <chris_madsen@geocities.com>
+# Author: Christopher J. Madsen <perl@cjmweb.net>
 # Created: 09 Nov 1997
-# Version: $Revision: 1.1 $ ($Date: 1998/10/25 23:07:59 $)
+# $Id$
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the same terms as Perl itself.
@@ -22,17 +22,14 @@ require 5.000;
 use Carp;
 require Tie::CPHash;
 use strict;
-use vars qw(@ISA $VERSION $hide_descriptions);
-
-@ISA = ();
+use vars qw($VERSION $hide_descriptions);
 
 #=====================================================================
 # Package Startup:
 
 BEGIN
 {
-    # Convert RCS revision number to d.ddd format:
-    $VERSION = sprintf('%d.%03d', '$Revision: 1.1 $ ' =~ /(\d+)\.(\d+)/);
+    $VERSION = '1.02';
 
     # Try to load MSDOS::Attrib, but keep going without it:
     eval { require MSDOS::Attrib };
@@ -71,6 +68,14 @@ sub autoupdate
 {
     $_[0]->{autoupdate} = (($#_ > 0) ? $_[1] : 1);
 } # end autoupdate
+
+#---------------------------------------------------------------------
+# Return true if the descriptions have changed:
+
+sub changed
+{
+  $_[0]->{changed};
+} # end changed
 
 #---------------------------------------------------------------------
 # Read or update the description for a file:
@@ -176,7 +181,7 @@ sub write
 
 sub update
 {
-    $_[0]->write if $_[0]->{changed};
+    $_[0]->write if $_[0]->changed;
 } # end update
 
 #=====================================================================
@@ -216,14 +221,14 @@ C<new>.
 
 =over 4
 
-=item $d = MSDOS::Descript->new([$filename])
+=item C<< $d = MSDOS::Descript->new([$filename]) >>
 
 Constructs a new C<MSDOS::Descript> object.  C<$filename> may be a
 directory or a 4DOS DESCRIPT.ION format file.  If it's a directory,
 looks for a DESCRIPT.ION file in that directory.  If C<$filename> is
 omitted, it defaults to the current directory.
 
-=item $d->description($file, [$desc])
+=item C<< $d->description($file, [$desc]) >>
 
 Gets or sets the description of C<$file>.  If C<$desc> is omitted,
 returns the description of C<$file> or C<undef> if it doesn't have
@@ -231,22 +236,22 @@ one.  Otherwise, sets the description of C<$file> to C<$desc> and
 returns the old description.  (If C<$desc> is the null string or
 C<undef>, the description is deleted.)
 
-=item $d->rename($old, $new)
+=item C<< $d->rename($old, $new) >>
 
 Transfers the description of C<$old> (if any) to C<$new>.  This does
 not actually rename the file on disk.
 
-=item $d->read([$file])
+=item C<< $d->read([$file]) >>
 
 Load the descriptions from C<$file>.  If C<$file> is omitted, then
 re-read the original description file.  Since C<new> does this
 automatically, you shouldn't have to call C<read> yourself.
 
-=item $d->read_add($file)
+=item C<< $d->read_add($file) >>
 
 Add the descriptions from C<$file> to the current descriptions.
 
-=item $d->write([$file])
+=item C<< $d->write([$file]) >>
 
 Writes the descriptions to C<$file>, or the original description file
 if C<$file> is omitted.  Marks the descriptions as unchanged if
@@ -255,12 +260,18 @@ has changed since the descriptions were loaded, and the description
 file was specified by a relative path (which is the default), you will
 be writing to a different file.
 
-=item $d->update
+=item C<< $d->changed >>
 
-Saves the descriptions to the original file if any changes have been made.
-The same warning about the current directory applies (see C<write>).
+Returns a true value if the descriptions have changed since being
+loaded from the file.
 
-=item $d->autoupdate([$auto])
+=item C<< $d->update >>
+
+Saves the descriptions to the original file if any changes have been
+made.  The same warning about the current directory applies (see
+C<write>).  Equivalent to C<< $d->write if $d->changed >>.
+
+=item C<< $d->autoupdate([$auto]) >>
 
 Turns on automatic updates for C<$d> if C<$auto> is true or omitted.
 Otherwise, turns automatic updates off.
@@ -283,7 +294,7 @@ changes them.  If you don't have B<MSDOS::Attrib>, it will still work,
 but any DESCRIPT.ION files changed by B<MSDOS::Descript> will become
 visible.
 
-Both B<Tie::CPHash> and B<MSDOS::Attrib> are available from CPAN.
+Both L<Tie::CPHash> and L<MSDOS::Attrib> are available from CPAN.
 
 =head1 BUGS
 
@@ -292,7 +303,7 @@ description file can cause problems.
 
 =head1 AUTHOR
 
-Christopher J. Madsen E<lt>F<chris_madsen@geocities.com>E<gt>
+Christopher J. Madsen E<lt>F<perl@cjmweb.net>E<gt>
 
 =cut
 
