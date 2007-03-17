@@ -19,7 +19,7 @@ package My_Build;
 #---------------------------------------------------------------------
 
 use strict;
-
+use File::Spec ();
 use base 'Module::Build';
 
 #=====================================================================
@@ -61,6 +61,37 @@ sub prereq_failures
 
   return $out;
 } # end prereq_failures
+
+#---------------------------------------------------------------------
+sub ACTION_distdir
+{
+  my $self = shift @_;
+
+  $self->SUPER::ACTION_distdir(@_);
+
+  # Process README, inserting version number & removing comments:
+
+  my $out = File::Spec->catfile($self->dist_dir, 'README');
+  my @stat = stat($out) or die;
+
+  unlink $out or die;
+
+  open(IN,  '<', 'README') or die;
+  open(OUT, '>', $out)     or die;
+
+  while (<IN>) {
+    next if /^\$\$/;            # $$ indicates comment
+    s/\$\%v\%\$/ $self->dist_version /ge;
+
+    print OUT $_;
+  } # end while IN
+
+  close IN;
+  close OUT;
+
+  utime @stat[8,9], $out;       # Restore modification times
+  chmod $stat[2],   $out;       # Restore access permissions
+} # end ACTION_distdir
 
 #=====================================================================
 # Package Return Value:
