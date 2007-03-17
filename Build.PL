@@ -26,7 +26,8 @@ my $builder = My_Build->new(
       'MSDOS::Attrib' => 1,
   },
   build_requires => {
-      'Module::Build' => 0.1,
+      'FindBin'       => 0,
+      'Module::Build' => 0.21,
       'Test::More'    => 0,
   },
   create_makefile_pl => 'passthrough',
