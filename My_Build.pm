@@ -4,7 +4,7 @@ package My_Build;
 #
 # Copyright 2007 Christopher J. Madsen
 #
-# Author: Christopher J. Madsen <cjm@pobox.com>
+# Author: Christopher J. Madsen <perl@cjmweb.net>
 # Created: 18 Feb 2007
 #
 # This program is free software; you can redistribute it and/or modify
