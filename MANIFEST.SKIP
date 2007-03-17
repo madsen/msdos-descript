@@ -13,6 +13,6 @@
 ^blib/
 ^cjm_
 ^pm_to_blib$
-^MSDOS-\d
+^MSDOS-Descript-\d
 ^_build\b
 ^Build$
