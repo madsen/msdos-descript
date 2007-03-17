@@ -16,3 +16,4 @@
 ^MSDOS-Descript-\d
 ^_build\b
 ^Build$
+^Build.bat$
