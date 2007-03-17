@@ -31,6 +31,7 @@ my $builder = My_Build->new(
       'Test::More'    => 0,
   },
   create_makefile_pl => 'passthrough',
+  dynamic_config     => 0,
 );
 
 $builder->create_build_script();
