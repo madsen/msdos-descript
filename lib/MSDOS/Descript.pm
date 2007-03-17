@@ -301,12 +301,18 @@ Both L<Tie::CPHash> and L<MSDOS::Attrib> are available from CPAN.
 Uses relative paths, so changing the current directory after loading a
 description file can cause problems.
 
+If you call C<rename($old, $new)>, and C<$new> already had a
+description but C<$old> did not, C<$new>'s description is preserved
+(instead of being erased).  I can't decide if this is a bug or a
+feature, so I'm leaving it alone for now.  This behavior may change in
+the future.
+
 =head1 AUTHOR
 
-Christopher J. Madsen E<lt>F<perl@cjmweb.net>E<gt>
+Christopher J. Madsen E<lt>F<perl AT cjmweb.net>E<gt>
+
+Please send bug reports to F<bug-MSDOS-Descript AT rt.cpan.org>, or
+use the web interface at
+L<http://rt.cpan.org/Public/Bug/Report.html?Queue=MSDOS-Descript>
 
 =cut
-
-# Local Variables:
-# tmtrack-file-task: "MSDOS::Descript.pm"
-# End:
