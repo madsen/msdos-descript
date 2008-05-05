@@ -1,13 +1,23 @@
-$$Id$
-MSDOS::Descript $%v%$
-Copyright 2007 Christopher J. Madsen
+[% # $Id$ %]
+MSDOS::Descript version [%version%], released [%date%]
+
+Copyright 1997-2008 Christopher J. Madsen
 
 DESCRIPTION
 
     This module provides access to 4DOS style DESCRIPT.ION files.
     It can both read and write them.
 
-REQUIREMENTS
+INSTALLATION
+
+    To install this module, run the following commands:
+
+	perl Build.PL
+	./Build
+	./Build test
+	./Build install
+
+DEPENDENCIES
 
     You must have the Tie::CPHash module (a case-insensitive hash).
 
@@ -21,6 +31,12 @@ REQUIREMENTS
 
         http://search.cpan.org/~cjm/Tie-CPHash/
         http://search.cpan.org/~cjm/MSDOS-Attrib/
+
+CHANGES
+    Here's what's new in version [%version%] of Module::Build::DistVersion:
+    (See the file "Changes" for the full revision history.)
+
+[%changes%]
 
 LICENSE
 

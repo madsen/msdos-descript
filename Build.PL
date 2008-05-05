@@ -9,8 +9,9 @@
 use strict;
 use warnings;
 
+# Make sure we're using My_Build from our distribution:
 use FindBin;
-use lib $FindBin::Bin; # Make sure we're using My_Build from our distribution
+use lib "$FindBin::Bin/tools";
 
 use My_Build;          # Our customized version of Module::Build
 
@@ -18,8 +19,8 @@ my $builder = My_Build->new(
   module_name        => 'MSDOS::Descript',
   license            => 'perl',
   dist_author        => 'Christopher J. Madsen <perl@cjmweb.net>',
-  dist_version_from  => 'lib/MSDOS/Descript.pm',
   requires => {
+      'perl'        => '5.006',
       'Tie::CPHash' => 1,
   },
   recommends => {
@@ -32,6 +33,7 @@ my $builder = My_Build->new(
   },
   create_makefile_pl => 'passthrough',
   dynamic_config     => 0,
+  meta_merge         => { no_index  => { directory => [ 'tools' ] }},
 );
 
 $builder->create_build_script();

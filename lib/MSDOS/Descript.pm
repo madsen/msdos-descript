@@ -1,7 +1,7 @@
 #---------------------------------------------------------------------
 package MSDOS::Descript;
 #
-# Copyright 1997 Christopher J. Madsen
+# Copyright 1997-2008 Christopher J. Madsen
 #
 # Author: Christopher J. Madsen <perl@cjmweb.net>
 # Created: 09 Nov 1997
@@ -19,9 +19,10 @@ package MSDOS::Descript;
 #---------------------------------------------------------------------
 
 require 5.000;
-use Carp;
-require Tie::CPHash;
 use strict;
+use warnings;
+use Carp qw(croak);
+use Tie::CPHash ();
 use vars qw($VERSION $hide_descriptions);
 
 #=====================================================================
@@ -29,7 +30,7 @@ use vars qw($VERSION $hide_descriptions);
 
 BEGIN
 {
-    $VERSION = '1.02';
+    $VERSION = '1.03';
 
     # Try to load MSDOS::Attrib, but keep going without it:
     eval { require MSDOS::Attrib };
@@ -195,6 +196,11 @@ __END__
 
 MSDOS::Descript - Manage 4DOS style DESCRIPT.ION files
 
+=head1 VERSION
+
+This document describes $Id$
+
+
 =head1 SYNOPSIS
 
     use MSDOS::Descript;
@@ -207,12 +213,12 @@ MSDOS::Descript - Manage 4DOS style DESCRIPT.ION files
 
 =head1 DESCRIPTION
 
-B<MSDOS::Descript> provides access to 4DOS style DESCRIPT.ION files.
+MSDOS::Descript provides access to 4DOS style DESCRIPT.ION files.
 
 Remember that changes to the descriptions are B<not> saved unless you
 call the C<update> or C<write> methods.
 
-By default, B<MSDOS::Descript> uses relative paths, so if you change
+By default, MSDOS::Descript uses relative paths, so if you change
 the current directory between C<new> and C<update>, you'll be writing
 to a different file.  To avoid this, you can pass an absolute path to
 C<new>.
@@ -284,19 +290,31 @@ use absolute paths if you're going to use C<autoupdate>.
 
 =back
 
-=head1 REQUIREMENTS
 
-B<MSDOS::Descript> requires the B<Tie::CPHash> module (a
+=head1 CONFIGURATION AND ENVIRONMENT
+
+MSDOS::Descript requires no configuration files or environment variables.
+
+
+=head1 DEPENDENCIES
+
+MSDOS::Descript requires the Tie::CPHash module (a
 case-insensitive hash).
 
-It also uses B<MSDOS::Attrib> to hide DESCRIPT.ION files after it
-changes them.  If you don't have B<MSDOS::Attrib>, it will still work,
-but any DESCRIPT.ION files changed by B<MSDOS::Descript> will become
+It also uses MSDOS::Attrib to hide DESCRIPT.ION files after it
+changes them.  If you don't have MSDOS::Attrib, it will still work,
+but any DESCRIPT.ION files changed by MSDOS::Descript will become
 visible.
 
 Both L<Tie::CPHash> and L<MSDOS::Attrib> are available from CPAN.
 
-=head1 BUGS
+
+=head1 INCOMPATIBILITIES
+
+None reported.
+
+
+=head1 BUGS AND LIMITATIONS
 
 Uses relative paths, so changing the current directory after loading a
 description file can cause problems.
@@ -307,12 +325,46 @@ description but C<$old> did not, C<$new>'s description is preserved
 feature, so I'm leaving it alone for now.  This behavior may change in
 the future.
 
+
 =head1 AUTHOR
 
-Christopher J. Madsen E<lt>F<perl AT cjmweb.net>E<gt>
+Christopher J. Madsen  S<< C<< <perl AT cjmweb.net> >> >>
 
-Please send bug reports to F<bug-MSDOS-Descript AT rt.cpan.org>, or
-use the web interface at
+Please report any bugs or feature requests to
+S<< C<< <bug-MSDOS-Descript AT rt.cpan.org> >> >>,
+or through the web interface at
 L<http://rt.cpan.org/Public/Bug/Report.html?Queue=MSDOS-Descript>
+
+
+=head1 LICENSE AND COPYRIGHT
+
+Copyright 1997-2008 Christopher J. Madsen
+
+This module is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself. See L<perlartistic>.
+
+
+=head1 DISCLAIMER OF WARRANTY
+
+BECAUSE THIS SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
+FOR THE SOFTWARE, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN
+OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
+PROVIDE THE SOFTWARE "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
+EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE
+ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE SOFTWARE IS WITH
+YOU. SHOULD THE SOFTWARE PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL
+NECESSARY SERVICING, REPAIR, OR CORRECTION.
+
+IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
+WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
+REDISTRIBUTE THE SOFTWARE AS PERMITTED BY THE ABOVE LICENCE, BE
+LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL,
+OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE
+THE SOFTWARE (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING
+RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
+FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
+SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGES.
 
 =cut

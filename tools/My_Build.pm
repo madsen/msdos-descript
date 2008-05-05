@@ -20,14 +20,38 @@ package My_Build;
 
 use strict;
 use File::Spec ();
-use base 'Module::Build';
+use Module::Build ();
+
+# Use Module::Build::DistVersion if we can get it:
+BEGIN {
+  eval q{ use base 'Module::Build::DistVersion'; };
+  eval q{ use base 'Module::Build'; } if $@;
+  die $@ if $@;
+}
 
 #=====================================================================
 # Package Global Variables:
 
-our $VERSION = '1.00';
+our $VERSION = '1.03';
 
 #=====================================================================
+sub ACTION_distdir
+{
+  my $self = shift @_;
+
+  print STDERR <<"END" unless $self->isa('Module::Build::DistVersion');
+\a\a\a\n
+MSDOS::Descript uses Module::Build::DistVersion to automatically copy
+version numbers to the appropriate places.  You might want to install
+that and re-run Build.PL if you intend to create a distribution.
+\n
+END
+
+  $self->SUPER::ACTION_distdir(@_);
+} # end ACTION_distdir
+
+#---------------------------------------------------------------------
+# Explain what missing MSDOS::Attrib means:
 
 sub prereq_failures
 {
@@ -61,37 +85,6 @@ sub prereq_failures
 
   return $out;
 } # end prereq_failures
-
-#---------------------------------------------------------------------
-sub ACTION_distdir
-{
-  my $self = shift @_;
-
-  $self->SUPER::ACTION_distdir(@_);
-
-  # Process README, inserting version number & removing comments:
-
-  my $out = File::Spec->catfile($self->dist_dir, 'README');
-  my @stat = stat($out) or die;
-
-  unlink $out or die;
-
-  open(IN,  '<', 'README') or die;
-  open(OUT, '>', $out)     or die;
-
-  while (<IN>) {
-    next if /^\$\$/;            # $$ indicates comment
-    s/\$\%v\%\$/ $self->dist_version /ge;
-
-    print OUT $_;
-  } # end while IN
-
-  close IN;
-  close OUT;
-
-  utime @stat[8,9], $out;       # Restore modification times
-  chmod $stat[2],   $out;       # Restore access permissions
-} # end ACTION_distdir
 
 #=====================================================================
 # Package Return Value:

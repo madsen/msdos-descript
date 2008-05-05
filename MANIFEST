@@ -4,10 +4,11 @@ lib/MSDOS/Descript.pm		The MSDOS::Descript module
 Makefile.PL			MakeMaker Makefile
 MANIFEST			See MANIFEST
 META.yml
-My_Build.pm                     Customize Module::Build
 README				About the MSDOS::Descript module
 t/00.load.t
 t/10.descript.t			Testing... 1, 2, 3, Testing... 1, 2, 3
 t/pod-coverage.t
 t/pod.t
 t/sample.des			Sample descriptions (used by 10.descript.t)
+tools/My_Build.pm		Customize Module::Build
+tools/README.tt
