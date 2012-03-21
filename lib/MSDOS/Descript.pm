@@ -5,7 +5,6 @@ package MSDOS::Descript;
 #
 # Author: Christopher J. Madsen <perl@cjmweb.net>
 # Created: 09 Nov 1997
-# $Id$
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the same terms as Perl itself.
@@ -15,10 +14,10 @@ package MSDOS::Descript;
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See either the
 # GNU General Public License or the Artistic License for more details.
 #
-# Manage 4DOS DESCRIPT.ION files
+# ABSTRACT: Manage 4DOS style DESCRIPT.ION files
 #---------------------------------------------------------------------
 
-require 5.000;
+require 5.006;
 use strict;
 use warnings;
 use Carp qw(croak);
@@ -30,8 +29,9 @@ use vars qw($VERSION $hide_descriptions);
 
 BEGIN
 {
-    $VERSION = '1.03';
+    $VERSION = '1.04';
 
+    # RECOMMEND PREREQ: MSDOS::Attrib
     # Try to load MSDOS::Attrib, but keep going without it:
     eval { require MSDOS::Attrib };
     $hide_descriptions = 1 unless $@;
@@ -192,15 +192,6 @@ sub update
 
 __END__
 
-=head1 NAME
-
-MSDOS::Descript - Manage 4DOS style DESCRIPT.ION files
-
-=head1 VERSION
-
-This document describes $Id$
-
-
 =head1 SYNOPSIS
 
     use MSDOS::Descript;
@@ -324,47 +315,5 @@ description but C<$old> did not, C<$new>'s description is preserved
 (instead of being erased).  I can't decide if this is a bug or a
 feature, so I'm leaving it alone for now.  This behavior may change in
 the future.
-
-
-=head1 AUTHOR
-
-Christopher J. Madsen  S<< C<< <perl AT cjmweb.net> >> >>
-
-Please report any bugs or feature requests to
-S<< C<< <bug-MSDOS-Descript AT rt.cpan.org> >> >>,
-or through the web interface at
-L<http://rt.cpan.org/Public/Bug/Report.html?Queue=MSDOS-Descript>
-
-
-=head1 LICENSE AND COPYRIGHT
-
-Copyright 1997-2008 Christopher J. Madsen
-
-This module is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself. See L<perlartistic>.
-
-
-=head1 DISCLAIMER OF WARRANTY
-
-BECAUSE THIS SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
-FOR THE SOFTWARE, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN
-OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
-PROVIDE THE SOFTWARE "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
-EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE
-ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE SOFTWARE IS WITH
-YOU. SHOULD THE SOFTWARE PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL
-NECESSARY SERVICING, REPAIR, OR CORRECTION.
-
-IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
-WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
-REDISTRIBUTE THE SOFTWARE AS PERMITTED BY THE ABOVE LICENCE, BE
-LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL,
-OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE
-THE SOFTWARE (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING
-RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
-FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
-SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
-SUCH DAMAGES.
 
 =cut

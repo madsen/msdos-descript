@@ -1,0 +1,46 @@
+MSDOS::Descript version {{$version}}, released {{$date}}
+
+
+This module provides access to 4DOS style DESCRIPT.ION files.
+It can both read and write them.
+
+
+
+INSTALLATION
+
+To install this module, run the following commands:
+
+{{ $t->build_instructions }}
+
+
+
+DEPENDENCIES
+
+{{ $t->dependency_list }}
+
+    You must have the Tie::CPHash module (a case-insensitive hash).
+
+    Additionally, you should have the MSDOS::Attrib module if it's
+    supported on your system (it currently works on OS/2 and Win32
+    systems).  If you don't have MSDOS::Attrib, then any DESCRIPT.ION
+    files modified by MSDOS::Descript will no longer be hidden files.
+    This means that they will show up in directory listings.
+
+    Both these modules are available on CPAN:
+
+        http://search.cpan.org/dist/Tie-CPHash/
+        http://search.cpan.org/dist/MSDOS-Attrib/
+
+
+
+CHANGES
+    Here's what's new in version {{$version}} of MSDOS::Descript:
+    (See the file "Changes" for the full revision history.)
+
+{{$changes}}
+
+
+
+COPYRIGHT AND LICENSE
+
+{{ local $_ = $zilla->license->notice; chomp; $_ }}

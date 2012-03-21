@@ -1,5 +1,4 @@
 #---------------------------------------------------------------------
-# $Id$
 package My_Build;
 #
 # Copyright 2007 Christopher J. Madsen
@@ -19,38 +18,16 @@ package My_Build;
 #---------------------------------------------------------------------
 
 use strict;
-use File::Spec ();
 use Module::Build ();
 
-# Use Module::Build::DistVersion if we can get it:
-BEGIN {
-  eval q{ use base 'Module::Build::DistVersion'; };
-  eval q{ use base 'Module::Build'; } if $@;
-  die $@ if $@;
-}
+our @ISA = qw(Module::Build);
 
 #=====================================================================
 # Package Global Variables:
 
-our $VERSION = '1.03';
+our $VERSION = '1.04';
 
 #=====================================================================
-sub ACTION_distdir
-{
-  my $self = shift @_;
-
-  print STDERR <<"END" unless $self->isa('Module::Build::DistVersion');
-\a\a\a\n
-MSDOS::Descript uses Module::Build::DistVersion to automatically copy
-version numbers to the appropriate places.  You might want to install
-that and re-run Build.PL if you intend to create a distribution.
-\n
-END
-
-  $self->SUPER::ACTION_distdir(@_);
-} # end ACTION_distdir
-
-#---------------------------------------------------------------------
 # Explain what missing MSDOS::Attrib means:
 
 sub prereq_failures

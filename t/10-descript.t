@@ -1,6 +1,6 @@
 #! /usr/bin/perl
 #---------------------------------------------------------------------
-# $Id$
+# 10-descript.t
 # Copyright 2007 Christopher J. Madsen
 #
 # This program is free software; you can redistribute it and/or modify

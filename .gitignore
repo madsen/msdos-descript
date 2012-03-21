@@ -1,0 +1,15 @@
+/.build/
+/_build/
+/blib/
+/Build
+/Build.bat
+Makefile
+/META.*
+/MYMETA.*
+/pm_to_blib
+MSDOS-Descript-*.tar.gz
+MSDOS-Descript-*/
+/test-results/
+*.c
+*.obj
+*.pdb

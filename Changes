@@ -1,5 +1,10 @@
 Revision history for Perl extension MSDOS::Descript.
 
+1.04   NOT
+	- no functional changes
+	- now built with Dist::Zilla (includes v2 META.json)
+	- repository now publicly available on GitHub
+
 1.03   May 4, 2008
 	- no functional changes
 	- minor clean up to documentation
