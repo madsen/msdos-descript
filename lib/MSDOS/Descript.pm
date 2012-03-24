@@ -33,8 +33,8 @@ BEGIN
 
     # RECOMMEND PREREQ: MSDOS::Attrib
     # Try to load MSDOS::Attrib, but keep going without it:
-    eval { require MSDOS::Attrib };
-    $hide_descriptions = 1 unless $@;
+    $hide_descriptions = do { local $@; eval { require MSDOS::Attrib; 1 } };
+
     MSDOS::Attrib->import('set_attribs') if $hide_descriptions;
 } # end BEGIN
 
