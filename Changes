@@ -1,6 +1,6 @@
 Revision history for Perl extension MSDOS::Descript.
 
-1.04   NOT
+1.04   March 26, 2012
 	- localize $@ before eval
 	- now built with Dist::Zilla (includes v2 META.json)
 	- repository now publicly available on GitHub
