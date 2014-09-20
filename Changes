@@ -1,6 +1,7 @@
 Revision history for Perl extension MSDOS::Descript.
 
 1.05   NOT
+	- mention JP Software in documentation
 	- release tests moved to xt/
 
 1.04   2012-03-26

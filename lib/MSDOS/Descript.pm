@@ -300,6 +300,17 @@ visible.
 Both L<Tie::CPHash> and L<MSDOS::Attrib> are available from CPAN.
 
 
+=for Pod::Loom-insert_after
+DEPENDENCIES
+SEE ALSO
+
+=head1 SEE ALSO
+
+JP Software (L<http://jpsoft.com>), makers of 4DOS, 4NT, and Take Command.
+These alternate shells for DOS & Windows originated (and can still use)
+the DESCRIPT.ION file format.
+
+
 =head1 INCOMPATIBILITIES
 
 None reported.
