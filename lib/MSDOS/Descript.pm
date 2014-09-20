@@ -29,7 +29,7 @@ use vars qw($VERSION $hide_descriptions);
 
 BEGIN
 {
-    $VERSION = '1.04';
+    $VERSION = '1.05';
 
     # RECOMMEND PREREQ: MSDOS::Attrib
     # Try to load MSDOS::Attrib, but keep going without it:
